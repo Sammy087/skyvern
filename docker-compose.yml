@@ -103,6 +103,7 @@ services:
       - VITE_ENVIRONMENT=development
       - VITE_ENABLE_LOG_ARTIFACTS=false
       - VITE_ENABLE_CODE_BLOCK=false
+      - VITE_SKYVERN_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQ4ODc5Nzg1NjEsInN1YiI6Im9fMzc1MTAyNTE5NDI0MjIwMTQ2In0.hYc7F9Ogrodr21NbUedixSn597cfyIX2DCy7ky4ukKg
     depends_on:
       skyvern:
         condition: service_healthy
