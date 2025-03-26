@@ -60,14 +60,14 @@
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 72.2% 50.6%; /* red-600 */
-    --destructive-foreground: 0 85.7% 97.3%; /* red-50 */
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
 
-    --warning: 40.6 96.1% 40.4%; /* yellow-600 */
-    --warning-foreground: 54.5 91.7% 95.3%; /* yellow-50 */
+    --warning: 40.6 96.1% 40.4%;
+    --warning-foreground: 54.5 91.7% 95.3%;
 
-    --success: 142.1 76.2% 36.3%; /* green-600 */
-    --success-foreground: 138.5 76.5% 96.7%; /* green-50 */
+    --success: 142.1 76.2% 36.3%;
+    --success-foreground: 138.5 76.5% 96.7%;
 
     --border: 215.3 25% 26.7%;
     --input: 215.3 25% 26.7%;
@@ -88,6 +88,18 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply h-full antialiased;
+  }
+
+  body {
+    @apply flex h-full flex-col;
+  }
+
+  #root {
+    @apply flex h-full flex-col;
   }
 }
 

@@ -19,7 +19,9 @@ services:
       retries: 5
 
   skyvern:
-    image: public.ecr.aws/skyvern/skyvern:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: on-failure
     # comment out if you want to externally call skyvern API
     ports:
@@ -38,7 +40,7 @@ services:
       - BROWSER_TYPE=chromium-headful
       - ENABLE_OPENAI=true
       - LLM_KEY=OPENAI_GPT4O
-      - OPENAI_API_KEY=<your_openai_key>
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
       # If you want to use other LLM provider, like azure and anthropic:
       # - ENABLE_ANTHROPIC=true
       # - LLM_KEY=ANTHROPIC_CLAUDE3.5_SONNET
@@ -82,7 +84,9 @@ services:
       retries: 5
 
   skyvern-ui:
-    image: public.ecr.aws/skyvern/skyvern-ui:latest
+    build:
+      context: ./skyvern-frontend
+      dockerfile: Dockerfile.ui
     restart: on-failure
     ports:
       - 8080:8080
@@ -93,16 +97,12 @@ services:
       - ./har:/data/har
       - ./.streamlit:/app/.streamlit
     environment:
-    # if you want to run skyvern on a remote server,
-    # you need to change the host in VITE_WSS_BASE_URL and VITE_API_BASE_URL to match your server ip
-    # If you're self-hosting this behind a dns, you'll want to set:
-    #   A route for the API: api.yourdomain.com -> localhost:8000
-    #   A route for the UI: yourdomain.com -> localhost:8080
-    #   A route for the artifact API: artifact.yourdomain.com -> localhost:9090 (maybe not needed)
-      - VITE_WSS_BASE_URL=ws://localhost:8000/api/v1
-    #   - VITE_ARTIFACT_API_BASE_URL=http://localhost:9090
-    #   - VITE_API_BASE_URL=http://localhost:8000/api/v1
-    #   - VITE_SKYVERN_API_KEY=<get this from "settings" in the Skyvern UI>
+      - VITE_API_BASE_URL=http://skyvern:8000/api/v1
+      - VITE_ARTIFACT_API_BASE_URL=http://skyvern-ui:9090
+      - VITE_WSS_BASE_URL=ws://skyvern:8000/api/v1
+      - VITE_ENVIRONMENT=development
+      - VITE_ENABLE_LOG_ARTIFACTS=false
+      - VITE_ENABLE_CODE_BLOCK=false
     depends_on:
       skyvern:
         condition: service_healthy
